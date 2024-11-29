@@ -1,4 +1,5 @@
 import { Message } from 'ai';
+import { useEffect, useRef } from 'react';
 import Item from '@/components/messages/item';
 
 interface ListProps {
@@ -7,8 +8,10 @@ interface ListProps {
 }
 
 const List = ({ messages, isLoading }: ListProps) => {
+  // Auto-scroll to bottom on new messages
+
   return (
-    <div className="flex-1 space-y-5 overflow-y-auto">
+    <div className="flex-1 space-y-5 overflow-y-auto scroll-smooth">
       {messages.map((message, index) => (
         <Item key={index} message={message} />
       ))}

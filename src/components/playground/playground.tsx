@@ -14,6 +14,8 @@ const Playground = () => {
     api: '/api/chat',
   });
 
+  console.log(messages);
+
   return (
     <div className="flex h-screen flex-col">
       <div className="flex items-start justify-between py-4 sm:flex-row sm:items-center">
