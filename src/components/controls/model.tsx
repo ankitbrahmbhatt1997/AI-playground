@@ -10,17 +10,11 @@ import {
 } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useState } from 'react';
+import { ModelType, Model } from '@/data/models';
 
 interface ModelSelectorProps {
-  types: {
-    value: string;
-    label: string;
-  }[];
-  models: {
-    value: string;
-    label: string;
-    type: string;
-  }[];
+  types: ModelType[];
+  models: Model[];
 }
 
 export function ModelSelector({ types, models }: ModelSelectorProps) {

@@ -1,24 +1,33 @@
-export const types = ['GPT-3', 'Codex'] as const;
+export const types = [
+  {
+    value: 'gpt3',
+    label: 'GPT-3',
+  },
+  {
+    value: 'codex',
+    label: 'Codex',
+  },
+] as const;
 
-export type ModelType = (typeof types)[number];
+export const models = [
+  {
+    value: 'gpt-3.5-turbo',
+    label: 'GPT-3.5 Turbo',
+    type: 'gpt3',
+  },
+  {
+    value: 'gpt-4',
+    label: 'GPT-4',
+    type: 'gpt3',
+  },
+] as const;
 
-export interface Model<Type = string> {
-  id: string;
-  name: string;
-  description: string;
-  strengths?: string;
-  type: Type;
+// Add proper types for the ModelSelector props
+export interface ModelType {
+  value: string;
+  label: string;
 }
 
-export const models: Model<ModelType>[] = [
-  {
-    id: 'c305f976-8e38-42b1-9fb7-d21b2e34f0da',
-    name: 'text-davinci-003',
-    description:
-      'Most capable GPT-3 model. Can do any task the other models can do, often with higher quality, longer output and better instruction-following.',
-    type: 'GPT-3',
-    strengths:
-      'Complex intent, cause and effect, creative generation, search, summarization for audience',
-  },
-  // Add more models as needed
-];
+export interface Model extends ModelType {
+  type: string;
+}

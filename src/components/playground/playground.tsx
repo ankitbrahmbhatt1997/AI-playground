@@ -2,19 +2,13 @@
 
 import { useChat } from 'ai/react';
 import { Separator } from '@/components/ui/separator';
-import { ModelSelector } from '@/components/controls/model';
-import { TemperatureSelector } from '@/components/controls/temperature';
-import { MaxLengthSelector } from '@/components/controls/max-length';
-import { TopPSelector } from '@/components/controls/top-p';
-import { models, types } from '@/data/models';
+
 import Messages from '@/components/messages';
 
 const Playground = () => {
   const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
     api: '/api/chat',
   });
-
-  console.log(messages);
 
   return (
     <div className="flex h-screen flex-col">
@@ -33,12 +27,12 @@ const Playground = () => {
               isLoading={isLoading}
             />
           </div>
-          <div className="hidden flex-col space-y-4 sm:flex md:order-2">
+          {/* <div className="hidden flex-col space-y-4 sm:flex md:order-2">
             <ModelSelector types={types} models={models} />
             <TemperatureSelector defaultValue={[0.56]} />
             <MaxLengthSelector defaultValue={[256]} />
             <TopPSelector defaultValue={[0.9]} />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
