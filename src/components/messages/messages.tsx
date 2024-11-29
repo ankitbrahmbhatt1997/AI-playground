@@ -1,9 +1,9 @@
 import { Message } from 'ai';
-import { ChatMessages } from './chat-messages';
-import { ChatInput } from './chat-input';
+import List from '@/components/messages/list';
+import Input from '@/components/messages/input';
 import { FormEvent, ChangeEvent } from 'react';
 
-interface ChatContainerProps {
+interface MessagesProps {
   messages: Message[];
   input: string;
   handleInputChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
@@ -11,20 +11,20 @@ interface ChatContainerProps {
   isLoading: boolean;
 }
 
-export function ChatContainer({
+const Messages = ({
   messages,
   input,
   handleInputChange,
   handleSubmit,
   isLoading,
-}: ChatContainerProps) {
+}: MessagesProps) => {
   return (
     <div className="flex h-full flex-col rounded-lg border bg-background">
       <div className="flex-1 overflow-y-auto p-4">
-        <ChatMessages messages={messages} isLoading={isLoading} />
+        <List messages={messages} isLoading={isLoading} />
       </div>
       <div className="border-t">
-        <ChatInput
+        <Input
           input={input}
           handleInputChange={handleInputChange}
           handleSubmit={handleSubmit}
@@ -33,4 +33,6 @@ export function ChatContainer({
       </div>
     </div>
   );
-}
+};
+
+export default Messages;

@@ -1,11 +1,11 @@
 import { Message } from 'ai';
 import { cn } from '@/lib/utils';
 
-interface MessageProps {
+interface InputProps {
   message: Message;
 }
 
-export function MessageItem({ message }: MessageProps) {
+const Item = ({ message }: InputProps) => {
   return (
     <div
       className={cn(
@@ -30,4 +30,6 @@ export function MessageItem({ message }: MessageProps) {
       </div>
     </div>
   );
-}
+};
+
+export default Item;

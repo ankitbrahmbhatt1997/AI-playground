@@ -1,21 +1,18 @@
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { useRef, FormEvent, ChangeEvent } from 'react';
+import { FormEvent, ChangeEvent } from 'react';
 
-interface ChatInputProps {
+interface InputProps {
   input: string;
   handleInputChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
   isLoading: boolean;
 }
 
-export function ChatInput({ input, handleInputChange, handleSubmit, isLoading }: ChatInputProps) {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
+const Input = ({ input, handleInputChange, handleSubmit, isLoading }: InputProps) => {
   return (
     <form onSubmit={handleSubmit} className="flex items-end gap-3 p-4">
       <Textarea
-        ref={textareaRef}
         tabIndex={0}
         rows={1}
         value={input}
@@ -29,4 +26,6 @@ export function ChatInput({ input, handleInputChange, handleSubmit, isLoading }:
       </Button>
     </form>
   );
-}
+};
+
+export default Input;

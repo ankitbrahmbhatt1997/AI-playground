@@ -1,16 +1,16 @@
 import { Message } from 'ai';
-import { MessageItem } from './message-item';
+import Item from '@/components/messages/item';
 
-interface ChatMessagesProps {
+interface ListProps {
   messages: Message[];
   isLoading?: boolean;
 }
 
-export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
+const List = ({ messages, isLoading }: ListProps) => {
   return (
-    <div className="flex-1 space-y-5 overflow-y-auto px-4">
+    <div className="flex-1 space-y-5 overflow-y-auto">
       {messages.map((message, index) => (
-        <MessageItem key={index} message={message} />
+        <Item key={index} message={message} />
       ))}
       {isLoading && (
         <div className="flex items-center justify-center py-4">
@@ -19,4 +19,6 @@ export function ChatMessages({ messages, isLoading }: ChatMessagesProps) {
       )}
     </div>
   );
-}
+};
+
+export default List;
