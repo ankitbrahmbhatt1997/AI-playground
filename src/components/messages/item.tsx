@@ -1,11 +1,26 @@
 import { Message } from 'ai';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { CheckIcon, CopyIcon } from '@radix-ui/react-icons';
+import { useState } from 'react';
 
-interface InputProps {
+interface ItemProps {
   message: Message;
 }
 
-const Item = ({ message }: InputProps) => {
+const Item = ({ message }: ItemProps) => {
+  const [copied, setCopied] = useState(false);
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(message.content);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
   return (
     <div
       className={cn(
@@ -27,6 +42,21 @@ const Item = ({ message }: InputProps) => {
           )}
           {message.content}
         </div>
+        {message.role === 'assistant' && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute right-2 top-2 h-8 w-8 opacity-0 group-hover:opacity-100"
+            onClick={copyToClipboard}
+          >
+            {copied ? (
+              <CheckIcon className="h-4 w-4 text-green-500" />
+            ) : (
+              <CopyIcon className="h-4 w-4" />
+            )}
+            <span className="sr-only">Copy message</span>
+          </Button>
+        )}
       </div>
     </div>
   );
