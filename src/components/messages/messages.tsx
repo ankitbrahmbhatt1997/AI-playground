@@ -1,7 +1,8 @@
 import { Message } from 'ai';
 import List from '@/components/messages/list';
 import Input from '@/components/messages/input';
-import { FormEvent, ChangeEvent, useRef, useEffect } from 'react';
+import Metrics from '@/components/messages/metrics';
+import { FormEvent, ChangeEvent, useRef, useEffect, useState } from 'react';
 
 interface MessagesProps {
   messages: Message[];
@@ -19,6 +20,17 @@ const Messages = ({
   isLoading,
 }: MessagesProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [startTime, setStartTime] = useState<number | undefined>();
+  const [tokenCount, setTokenCount] = useState(0);
+
+  useEffect(() => {
+    if (isLoading && !startTime) {
+      setStartTime(Date.now());
+      setTokenCount(0);
+    } else if (!isLoading) {
+      setStartTime(undefined);
+    }
+  }, [isLoading, startTime]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -26,11 +38,24 @@ const Messages = ({
     }
   }, [messages]);
 
+  // Update token count when messages change
+  useEffect(() => {
+    if (messages.length > 0) {
+      const lastMessage = messages[messages.length - 1];
+      setTokenCount(lastMessage.content.length / 4);
+    }
+  }, [messages]);
+
   return (
     <div className="flex h-[calc(100vh-13rem)] flex-col rounded-lg border bg-background">
-      <div ref={scrollRef} className="min-h-0 flex-1 overflow-scroll scroll-smooth p-3">
+      <div ref={scrollRef} className="scrollbar-hide min-h-0 flex-1 overflow-y-scroll p-3">
         <List messages={messages} isLoading={isLoading} />
       </div>
+      {isLoading && messages.length > 0 && (
+        <div className="border-t px-4 py-2">
+          <Metrics isStreaming={isLoading} startTime={startTime} tokenCount={tokenCount} />
+        </div>
+      )}
       <div className="border-t">
         <Input
           input={input}
