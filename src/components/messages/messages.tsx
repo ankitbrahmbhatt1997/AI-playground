@@ -3,6 +3,7 @@ import List from '@/components/messages/list';
 import Input from '@/components/messages/input';
 import Metrics from '@/components/messages/metrics';
 import { FormEvent, ChangeEvent, useRef, useEffect, useState } from 'react';
+import LoaderDots from '../ui/loader-dots';
 
 interface MessagesProps {
   messages: Message[];
@@ -10,6 +11,7 @@ interface MessagesProps {
   handleInputChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
   isLoading: boolean;
+  isHistoryLoading: boolean;
 }
 
 const Messages = ({
@@ -18,6 +20,7 @@ const Messages = ({
   handleInputChange,
   handleSubmit,
   isLoading,
+  isHistoryLoading,
 }: MessagesProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [startTime, setStartTime] = useState<number | undefined>();
@@ -45,6 +48,14 @@ const Messages = ({
       setTokenCount(lastMessage.content.length / 4);
     }
   }, [messages]);
+
+  if (isHistoryLoading) {
+    return (
+      <div className="flex items-center justify-center py-4">
+        <LoaderDots text="Loading older messages" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-[calc(100vh-13rem)] flex-col rounded-lg border bg-background">
