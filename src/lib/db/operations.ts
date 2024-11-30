@@ -3,18 +3,26 @@ import { ChatMessage, ChatSession } from '@/types/db';
 
 export async function saveMessage(message: ChatMessage): Promise<void> {
   const db = await initDB();
-  await db.add('messages', message);
+  await db.put('messages', message);
 }
 
+//  This is not used anymore, but we should keep it for now, Added this because put was behaving weirdly
 export async function saveIfNotExists(message: ChatMessage): Promise<void> {
   const db = await initDB();
   const messageFromDb = await db.get('messages', message.id);
-  if (!messageFromDb) await db.add('messages', message);
+
+  if (!messageFromDb) {
+    await db.add('messages', message);
+  } else {
+  }
 }
 
 export async function getMessages(): Promise<ChatMessage[]> {
   const db = await initDB();
-  return db.getAllFromIndex('messages', 'by-timestamp');
+  console.log('🔍 Fetching all messages');
+  const messages = await db.getAllFromIndex('messages', 'by-timestamp');
+  console.log('📦 Retrieved messages:', messages.length);
+  return messages;
 }
 
 export async function saveSession(session: ChatSession): Promise<void> {
@@ -44,5 +52,7 @@ export async function clearOldSessions(maxAge: number): Promise<void> {
 
 export async function clearAllMessages(): Promise<void> {
   const db = await initDB();
+  console.log('🗑️ Starting clear all messages');
   await db.clear('messages');
+  console.log('🧹 Completed clear all messages');
 }

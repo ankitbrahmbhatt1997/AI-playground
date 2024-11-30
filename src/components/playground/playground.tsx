@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { clearAllMessages } from '@/lib/db/operations';
 
 const Playground = () => {
-  const { messages, input, handleInputChange, handleSubmit, isLoading, isHistoryLoading } =
+  const { messages, input, handleInputChange, handleSubmit, isLoading, isHistoryLoading, stop } =
     usePersistedChat({
       api: '/api/chat',
     });
@@ -14,7 +14,6 @@ const Playground = () => {
   const handleNewChat = async () => {
     try {
       await clearAllMessages();
-      window.location.reload();
     } catch (error) {
       console.error('Failed to clear messages:', error);
     }
@@ -38,6 +37,7 @@ const Playground = () => {
               handleSubmit={handleSubmit}
               isLoading={isLoading}
               isHistoryLoading={isHistoryLoading}
+              stopGenerating={stop}
             />
           </div>
         </div>

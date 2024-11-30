@@ -12,6 +12,7 @@ interface MessagesProps {
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
   isLoading: boolean;
   isHistoryLoading: boolean;
+  stopGenerating: () => void;
 }
 
 const Messages = ({
@@ -21,6 +22,7 @@ const Messages = ({
   handleSubmit,
   isLoading,
   isHistoryLoading,
+  stopGenerating,
 }: MessagesProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [startTime, setStartTime] = useState<number | undefined>();
@@ -73,6 +75,7 @@ const Messages = ({
           handleInputChange={handleInputChange}
           handleSubmit={handleSubmit}
           isLoading={isLoading}
+          stopGenerating={stopGenerating}
         />
       </div>
     </div>

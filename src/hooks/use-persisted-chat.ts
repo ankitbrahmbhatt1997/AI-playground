@@ -1,6 +1,6 @@
 import { useChat, Message } from 'ai/react';
 import { useEffect, useState } from 'react';
-import { getMessages, saveIfNotExists } from '@/lib/db/operations';
+import { getMessages, saveIfNotExists, saveMessage } from '@/lib/db/operations';
 
 const usePersistedChat = (options = {}) => {
   // TODO Unsure about the requirements. Using useChat for now as it is part of vercel SDK
@@ -53,16 +53,16 @@ const usePersistedChat = (options = {}) => {
           role: message.role,
           timestamp: Date.now(),
         };
-        console.log('Dank', messageToSave);
-        await saveIfNotExists(messageToSave);
+        // console.log('Dank message to save', messageToSave);
+        await saveMessage(messageToSave);
       } catch (error) {
         console.error('Failed to persist message:', error);
       }
     }
 
     if (messages.length > 0) {
+      // console.log('Dank all messages', messages);
       const lastMessage = messages[messages.length - 1];
-      console.log('Dank', lastMessage);
       persistMessage(lastMessage);
     }
   }, [messages, messages.length]);
