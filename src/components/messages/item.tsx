@@ -2,7 +2,7 @@ import { Message } from 'ai';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { CheckIcon, CopyIcon } from '@radix-ui/react-icons';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 
 interface ItemProps {
   message: Message;
@@ -62,4 +62,4 @@ const Item = ({ message }: ItemProps) => {
   );
 };
 
-export default Item;
+export default memo(Item);

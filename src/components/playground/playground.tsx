@@ -4,6 +4,7 @@ import usePersistedChat from '@/hooks/use-persisted-chat';
 import Messages from '@/components/messages/messages';
 import { Button } from '@/components/ui/button';
 import { clearAllMessages } from '@/lib/db/operations';
+import { useCallback } from 'react';
 
 const Playground = () => {
   const { messages, input, handleInputChange, handleSubmit, isLoading, isHistoryLoading, stop } =
@@ -11,13 +12,14 @@ const Playground = () => {
       api: '/api/chat',
     });
 
-  const handleNewChat = async () => {
+  const handleNewChat = useCallback(async () => {
     try {
       await clearAllMessages();
+      window.location.reload();
     } catch (error) {
       console.error('Failed to clear messages:', error);
     }
-  };
+  }, []);
 
   return (
     <div className="flex h-screen flex-col">

@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { FormEvent, ChangeEvent } from 'react';
+import { FormEvent, ChangeEvent, useState } from 'react';
 import { StopIcon } from '@radix-ui/react-icons';
 
 interface InputProps {
@@ -18,6 +18,16 @@ const Input = ({
   isLoading,
   stopGenerating,
 }: InputProps) => {
+  const [isCancelling, setIsCancelling] = useState(false);
+
+  const handleStop = async () => {
+    setIsCancelling(true);
+    await stopGenerating();
+    setTimeout(() => {
+      setIsCancelling(false);
+    }, 2000);
+  };
+
   return (
     <form onSubmit={handleSubmit} className="flex items-end gap-3 p-4">
       <Textarea
@@ -30,9 +40,8 @@ const Input = ({
         className="min-h-[60px] w-full resize-none rounded-md border border-input bg-background px-3 py-2"
       />
       {isLoading ? (
-        <Button type="button" onClick={stopGenerating} variant="secondary">
-          <StopIcon className="h-4 w-4" />
-          <span className="sr-only">Stop generating</span>
+        <Button type="button" onClick={handleStop} disabled={isCancelling} variant="secondary">
+          {isCancelling ? 'Stopping...' : 'Stop'}
         </Button>
       ) : (
         <Button type="submit" disabled={isLoading}>

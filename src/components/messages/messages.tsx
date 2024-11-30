@@ -2,7 +2,7 @@ import { Message } from 'ai';
 import List from '@/components/messages/list';
 import Input from '@/components/messages/input';
 import Metrics from '@/components/messages/metrics';
-import { FormEvent, ChangeEvent, useRef, useEffect, useState } from 'react';
+import { FormEvent, ChangeEvent, useRef, useEffect, useState, memo } from 'react';
 import LoaderDots from '../ui/loader-dots';
 
 interface MessagesProps {
@@ -28,6 +28,8 @@ const Messages = ({
   const [startTime, setStartTime] = useState<number | undefined>();
   const [tokenCount, setTokenCount] = useState(0);
 
+  // Track message changes
+
   useEffect(() => {
     if (isLoading && !startTime) {
       setStartTime(Date.now());
@@ -43,7 +45,6 @@ const Messages = ({
     }
   }, [messages]);
 
-  // Update token count when messages change
   useEffect(() => {
     if (messages.length > 0) {
       const lastMessage = messages[messages.length - 1];
@@ -81,5 +82,7 @@ const Messages = ({
     </div>
   );
 };
+
+Messages.displayName = 'Messages';
 
 export default Messages;

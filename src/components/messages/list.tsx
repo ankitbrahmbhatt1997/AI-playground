@@ -1,6 +1,7 @@
 import { Message } from 'ai';
 import Item from '@/components/messages/item';
 import LoaderDots from '@/components/ui/loader-dots';
+import { memo } from 'react';
 
 interface ListProps {
   messages: Message[];
@@ -26,4 +27,4 @@ const List = ({ messages, isLoading }: ListProps) => {
   );
 };
 
-export default List;
+export default memo(List);
