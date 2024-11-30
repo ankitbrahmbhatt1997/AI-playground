@@ -1,5 +1,7 @@
 import { ChatMessage } from '@/types/db';
-import { initDB } from '@/lib/db/operations';
+import { initDB } from '@/lib/db/index';
+
+// Wrote this script to populate the database with messages for testing. Might be useful in the future.
 
 const generateMessage = (index: number, isUser: boolean): ChatMessage => ({
   id: `test-${index}`,
@@ -13,10 +15,8 @@ const generateMessage = (index: number, isUser: boolean): ChatMessage => ({
 const seedMessages = async (count: number = 100) => {
   const db = await initDB();
 
-  // Clear existing messages
   await db.clear('messages');
 
-  // Generate alternating user/assistant messages
   for (let i = 0; i < count; i++) {
     const message = generateMessage(i, i % 2 === 0);
     await db.put('messages', message);
@@ -26,5 +26,4 @@ const seedMessages = async (count: number = 100) => {
   console.log('Seeding complete!');
 };
 
-// Run the script
 seedMessages().catch(console.error);

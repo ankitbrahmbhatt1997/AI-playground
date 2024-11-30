@@ -1,6 +1,6 @@
 import { useChat, Message } from 'ai/react';
 import { useEffect, useState } from 'react';
-import { getMessages, saveIfNotExists, saveMessage } from '@/lib/db/operations';
+import { getMessages, saveMessage } from '@/lib/db/operations';
 
 const usePersistedChat = (options = {}) => {
   // TODO Unsure about the requirements. Using useChat for now as it is part of vercel SDK
