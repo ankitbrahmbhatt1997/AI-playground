@@ -1,16 +1,27 @@
-import { useChat, Message } from 'ai/react';
+import { ChatMessage as Message } from '@/types/db';
 import { useEffect, useState } from 'react';
 import { getMessages, saveMessage } from '@/lib/db/operations';
+import { useStream } from '@/hooks';
 
 const usePersistedChat = (options = {}) => {
-  // TODO Unsure about the requirements. Using useChat for now as it is part of vercel SDK
-  const chatData = useChat({
+  const chatData = useStream({
     ...options,
+    onFinish: async (message) => {
+      try {
+        const messageToSave = {
+          id: message.id,
+          content: message.content,
+          role: message.role,
+          timestamp: Date.now(),
+        };
+        await saveMessage(messageToSave);
+      } catch (error) {
+        console.error('Failed to persist message:', error);
+      }
+    },
   });
 
   const [isHistoryLoading, setIsHistoryLoading] = useState<boolean>(false);
-
-  const { messages, setMessages } = chatData;
 
   // Load messages from IndexedDB on mount
   useEffect(() => {
@@ -21,13 +32,14 @@ const usePersistedChat = (options = {}) => {
         if (cached && cached.length > 0) {
           const sortedMessages = cached
             .sort((a, b) => a.timestamp - b.timestamp)
-            .map(({ content, role, id }) => ({
+            .map(({ content, role, id, timestamp }) => ({
               content,
               role,
               id,
+              timestamp,
             })) as Message[];
 
-          setMessages(sortedMessages);
+          chatData.setMessages(sortedMessages);
         }
       } catch (error) {
         console.error('Failed to load cached messages:', error);
@@ -41,31 +53,6 @@ const usePersistedChat = (options = {}) => {
 
     loadCachedMessages();
   }, []);
-
-  // Persist new messages to IndexedDB
-  // TODO - Try if this can be implemented using an inbuilt usechat callback like onFinish
-  useEffect(() => {
-    async function persistMessage(message: Message) {
-      try {
-        const messageToSave = {
-          id: message.id,
-          content: message.content,
-          role: message.role,
-          timestamp: Date.now(),
-        };
-        // console.log('Dank message to save', messageToSave);
-        await saveMessage(messageToSave);
-      } catch (error) {
-        console.error('Failed to persist message:', error);
-      }
-    }
-
-    if (messages.length > 0) {
-      // console.log('Dank all messages', messages);
-      const lastMessage = messages[messages.length - 1];
-      persistMessage(lastMessage);
-    }
-  }, [messages, messages.length]);
 
   return { ...chatData, isHistoryLoading };
 };

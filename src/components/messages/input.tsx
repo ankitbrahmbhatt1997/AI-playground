@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { FormEvent, ChangeEvent, useState, memo } from 'react';
+import { useToast } from '@/hooks';
 
 interface InputProps {
   input: string;
@@ -13,9 +14,12 @@ interface InputProps {
 const Input = memo(
   ({ input, handleInputChange, handleSubmit, isLoading, stopGenerating }: InputProps) => {
     const [isCancelling, setIsCancelling] = useState(false);
+    const { showToast } = useToast();
 
-    const handleStop = async () => {
+    const handleStop = async (e: React.MouseEvent) => {
+      e.preventDefault();
       setIsCancelling(true);
+      showToast('info', 'Oops! You didn`t like what I was saying 😱');
       await stopGenerating();
       setIsCancelling(false);
     };

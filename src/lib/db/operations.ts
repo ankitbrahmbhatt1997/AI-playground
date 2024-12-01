@@ -52,7 +52,5 @@ export async function clearOldSessions(maxAge: number): Promise<void> {
 
 export async function clearAllMessages(): Promise<void> {
   const db = await initDB();
-  console.log('🗑️ Starting clear all messages');
   await db.clear('messages');
-  console.log('🧹 Completed clear all messages');
 }
