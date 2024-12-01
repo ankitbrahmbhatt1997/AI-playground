@@ -2,9 +2,10 @@ import { Message } from 'ai';
 import List from '@/components/messages/list';
 import Input from '@/components/messages/input';
 import Metrics from '@/components/messages/metrics';
-import { FormEvent, ChangeEvent, useRef, useEffect, useState, memo } from 'react';
+import { FormEvent, ChangeEvent, useRef, useEffect, useState } from 'react';
 import LoaderDots from '../ui/loader-dots';
 import ErrorBoundary from '@/components/error-boundary/error-boundary';
+// import { useOnlineStatus } from '@/hooks';
 
 interface MessagesProps {
   messages: Message[];
@@ -28,6 +29,9 @@ const Messages = ({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [startTime, setStartTime] = useState<number | undefined>();
   const [tokenCount, setTokenCount] = useState(0);
+  // const isOnline = useOnlineStatus();
+
+  // console.log('Dank', isOnline);
 
   // Track message changes
 

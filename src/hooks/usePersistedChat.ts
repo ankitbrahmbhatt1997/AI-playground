@@ -2,19 +2,22 @@ import { ChatMessage as Message } from '@/types/db';
 import { useEffect, useState } from 'react';
 import { getMessages, saveMessage } from '@/lib/db/operations';
 import { useStream } from '@/hooks';
+import { useChat } from '@ai-sdk/react';
 
 const usePersistedChat = (options = {}) => {
   const chatData = useStream({
     ...options,
     onFinish: async (message) => {
       try {
-        const messageToSave = {
-          id: message.id,
-          content: message.content,
-          role: message.role,
-          timestamp: Date.now(),
-        };
-        await saveMessage(messageToSave);
+        if (message.content && message.content.trim() !== '') {
+          const messageToSave = {
+            id: message.id,
+            content: message.content,
+            role: message.role,
+            timestamp: Date.now(),
+          };
+          await saveMessage(messageToSave);
+        }
       } catch (error) {
         console.error('Failed to persist message:', error);
       }

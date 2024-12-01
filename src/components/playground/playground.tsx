@@ -4,7 +4,7 @@ import usePersistedChat from '@/hooks/usePersistedChat';
 import Messages from '@/components/messages/messages';
 import { Button } from '@/components/ui/button';
 import { clearAllMessages } from '@/lib/db/operations';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import ErrorBoundary from '@/components/error-boundary/error-boundary';
 import { useToast } from '@/hooks';
 
@@ -22,30 +22,6 @@ const Playground = () => {
   } = usePersistedChat({
     api: '/api/chat',
   });
-
-  // Watch online status
-  useEffect(() => {
-    const handleOnline = () => {
-      showToast('success', 'Back online! Messages will sync automatically');
-    };
-
-    const handleOffline = () => {
-      showToast('info', 'You are offline. Messages will be saved and sent later');
-    };
-
-    // Show initial status
-    if (!navigator.onLine) {
-      handleOffline();
-    }
-
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-  }, [showToast]);
 
   const handleNewChat = useCallback(async () => {
     try {

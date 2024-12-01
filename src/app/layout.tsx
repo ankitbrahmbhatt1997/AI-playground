@@ -2,6 +2,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Metadata } from 'next';
 import ClientLayout from '@/components/layouts/client-layout';
+import ServiceWorkerProvider from '@/components/providers/service-worker-provider';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>
+        <ServiceWorkerProvider />
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
