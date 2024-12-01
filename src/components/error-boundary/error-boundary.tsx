@@ -1,8 +1,8 @@
 'use client';
 
+import * as Sentry from '@sentry/nextjs';
 import React, { Component, ReactNode } from 'react';
 import { ExclamationTriangleIcon, ChevronDownIcon } from '@radix-ui/react-icons';
-// import * as Sentry from '@sentry/nextjs';
 
 export type ErrorBoundaryType = 'global' | 'messages' | 'input' | 'stream';
 
@@ -58,15 +58,9 @@ class ErrorBoundary extends Component<Props, State> {
     const { type = 'global' } = this.props;
     const error = this.state.error;
 
-    // Report to Sentry with context
-    // if (process.env.NODE_ENV === 'production' && error) {
-    //   Sentry.captureException(error, {
-    //     extra: {
-    //       type: this.props.type,
-    //       message: error.message,
-    //     },
-    //   });
-    // }
+    if (error) {
+      Sentry.captureException(error);
+    }
 
     if (error?.message.includes('IndexedDB')) {
       return {

@@ -1537,7 +1537,7 @@
   dependencies:
     "@sentry/types" "8.41.0"
 
-"@sentry/nextjs@^8.41.0":
+"@sentry/nextjs@^8":
   version "8.41.0"
   resolved "https://registry.yarnpkg.com/@sentry/nextjs/-/nextjs-8.41.0.tgz#d72599f7b97bce84fd2f0099362130c10c6b1fca"
   integrity sha512-UeB7WJ4bAEGtEYKhMWf1tOHBZaY4sws0nHMs0NctOJ9/5MlgcYlzdO4XSIuSyykJ3QMM/ENXj/1mPdm4dWhB8g==
