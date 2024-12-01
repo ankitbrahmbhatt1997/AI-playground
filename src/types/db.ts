@@ -6,6 +6,7 @@ export interface ChatMessage extends Message {
 
 export interface ChatSession {
   id: string;
+  name: string;
   messages: ChatMessage[];
   lastUpdated: number;
 }

@@ -21,6 +21,8 @@ const Item = ({ message }: ItemProps) => {
     }
   };
 
+  if (!message.content) return null;
+
   return (
     <div
       className={cn(

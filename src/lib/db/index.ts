@@ -1,6 +1,15 @@
 import { openDB, DBSchema } from 'idb';
 import { ChatMessage, ChatSession } from '@/types/db';
 
+export interface Request {
+  url: any;
+  method: any;
+  headers: {
+    [k: string]: any;
+  };
+  body: any;
+}
+
 interface ChatDBSchema extends DBSchema {
   messages: {
     key: string;
@@ -9,6 +18,7 @@ interface ChatDBSchema extends DBSchema {
       'by-timestamp': number;
     };
   };
+  //TODO: Implement session and message grouping if time allows
   sessions: {
     key: string;
     value: ChatSession;
@@ -19,7 +29,7 @@ interface ChatDBSchema extends DBSchema {
   'offline-requests': {
     key: number;
     value: {
-      request: any;
+      request: Request;
       timestamp: number;
       status: 'pending' | 'complete';
     };

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { useToast } from '@/hooks';
 
 interface OnlineStatusContextType {
@@ -18,20 +18,14 @@ export default function OnlineStatusProvider({ children }: { children: React.Rea
 
       if ('serviceWorker' in navigator) {
         try {
-          const registration = await navigator.serviceWorker.ready;
-          console.log('Service Worker ready, has sync?', 'sync' in registration);
+          // const registration = await navigator.serviceWorker.ready;
 
           if (navigator.serviceWorker.controller) {
-            console.log('Service Worker controller exists');
             navigator.serviceWorker.controller.postMessage('trigger-sync');
           } else {
-            console.warn('No Service Worker controller');
           }
-        } catch (error) {
-          console.error('Service Worker error:', error);
-        }
+        } catch (error) {}
       } else {
-        console.warn('Service Worker not supported');
       }
     };
 

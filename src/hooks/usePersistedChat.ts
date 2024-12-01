@@ -2,7 +2,6 @@ import { ChatMessage as Message } from '@/types/db';
 import { useEffect, useState } from 'react';
 import { getMessages, saveMessage } from '@/lib/db/operations';
 import { useStream } from '@/hooks';
-import { useChat } from '@ai-sdk/react';
 
 const usePersistedChat = (options = {}) => {
   const chatData = useStream({

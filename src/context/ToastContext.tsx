@@ -22,7 +22,7 @@ export const ToastContext = createContext<{
   showToast: (type: ToastType, message: string) => void;
 } | null>(null);
 
-export default function ToastProvider({ children }: { children: React.ReactNode }) {
+const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
   const showToast = useCallback((type: ToastType, message: string) => {
@@ -37,7 +37,6 @@ export default function ToastProvider({ children }: { children: React.ReactNode 
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-
       <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2">
         {toasts.map((toast) => {
           const Icon = icons[toast.type];
@@ -62,4 +61,6 @@ export default function ToastProvider({ children }: { children: React.ReactNode 
       </div>
     </ToastContext.Provider>
   );
-}
+};
+
+export default ToastProvider;

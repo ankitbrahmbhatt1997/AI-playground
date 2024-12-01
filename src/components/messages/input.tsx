@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { FormEvent, ChangeEvent, useState, memo } from 'react';
+import { FormEvent, ChangeEvent, useState, memo, KeyboardEvent } from 'react';
 import { useToast } from '@/hooks';
 
 interface InputProps {
@@ -24,6 +24,20 @@ const Input = memo(
       setIsCancelling(false);
     };
 
+    const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        if (input.trim()) {
+          const syntheticEvent = {
+            preventDefault: () => {},
+            currentTarget: e.currentTarget.form,
+          } as FormEvent<HTMLFormElement>;
+
+          handleSubmit(syntheticEvent);
+        }
+      }
+    };
+
     return (
       <form onSubmit={handleSubmit} className="flex items-end gap-3 p-4">
         <Textarea
@@ -31,7 +45,8 @@ const Input = memo(
           rows={1}
           value={input}
           onChange={handleInputChange}
-          placeholder="Send a message..."
+          onKeyDown={handleKeyDown}
+          placeholder="Send a message... (Enter to send, Shift+Enter for new line)"
           spellCheck={false}
           className="min-h-[60px] w-full resize-none rounded-md border border-input bg-background px-3 py-2"
         />

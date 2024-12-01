@@ -4,12 +4,17 @@ import usePersistedChat from '@/hooks/usePersistedChat';
 import Messages from '@/components/messages/messages';
 import { Button } from '@/components/ui/button';
 import { clearAllMessages } from '@/lib/db/operations';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import ErrorBoundary from '@/components/error-boundary/error-boundary';
 import { useToast } from '@/hooks';
+import { useOnlineStatus } from '@/hooks';
+import { Loader2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const Playground = () => {
   const { showToast } = useToast();
+  const isOnline = useOnlineStatus();
+  const [startingNewChat, setStartingNewChat] = useState(false);
 
   const {
     messages,
@@ -25,20 +30,34 @@ const Playground = () => {
 
   const handleNewChat = useCallback(async () => {
     try {
+      setStartingNewChat(true);
       await clearAllMessages();
       window.location.reload();
     } catch (error) {
       showToast('error', 'Failed to clear messages');
+    } finally {
+      setStartingNewChat(false);
     }
   }, [showToast]);
 
   return (
     <div className="flex h-screen flex-col">
       <div className="flex items-start justify-between py-4 sm:flex-row sm:items-center">
-        <h2 className="text-lg font-semibold">Playground</h2>
+        <h2 className="text-lg font-semibold">AI Playground</h2>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
+            <div
+              className={cn(
+                'h-2 w-2 rounded-full',
+                isOnline ? 'animate-pulse bg-green-500' : 'bg-red-500'
+              )}
+            />
+            <span className="text-sm text-muted-foreground">{isOnline ? 'Online' : 'Offline'}</span>
+          </div>
+        </div>
         <div className="space-x-2">
-          <Button variant="outline" onClick={handleNewChat}>
-            Start New Chat
+          <Button variant="outline" onClick={handleNewChat} disabled={startingNewChat}>
+            {startingNewChat ? <Loader2 className="animate-spin" /> : 'Start New Chat'}
           </Button>
         </div>
       </div>
