@@ -1,10 +1,8 @@
 import { streamText } from 'ai';
 import { openai } from '@ai-sdk/openai';
 
-// Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
-// IMPORTANT: Set the runtime to edge
 export const runtime = 'edge';
 
 export async function POST(req: Request) {

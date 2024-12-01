@@ -8,23 +8,45 @@ interface ListProps {
   isLoading?: boolean;
 }
 
-const List = ({ messages, isLoading }: ListProps) => {
-  return (
-    <div className="flex-1 space-y-5">
-      {messages.map((message, index) => (
-        <Item key={index} message={message} />
-      ))}
-      {isLoading && (
-        <div className="flex items-center justify-center py-4">
-          {messages.length === 0 ? (
-            <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-          ) : (
-            <LoaderDots />
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
+const List = memo(
+  ({ messages, isLoading }: ListProps) => {
+    return (
+      <div className="flex-1 space-y-5">
+        {messages.map((message, index) => (
+          <Item key={index} message={message} />
+        ))}
+        {isLoading && (
+          <div className="flex items-center justify-center py-4">
+            {messages.length === 0 ? (
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+            ) : (
+              <LoaderDots />
+            )}
+          </div>
+        )}
+      </div>
+    );
+  },
+  (prev, next) => {
+    // Different length means messages added/removed
+    if (prev.messages.length !== next.messages.length) return false;
 
-export default memo(List);
+    // Loading state changed
+    if (prev.isLoading !== next.isLoading) return false;
+
+    // During streaming, only last message changes
+    const lastIndex = prev.messages.length - 1;
+    const prevLast = prev.messages[lastIndex];
+    const nextLast = next.messages[lastIndex];
+
+    // If streaming (content different), only re-render last message
+    if (prevLast?.content !== nextLast?.content) return false;
+
+    // Otherwise keep memoized version
+    return true;
+  }
+);
+
+List.displayName = 'List';
+
+export default List;

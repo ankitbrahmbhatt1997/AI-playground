@@ -1,1 +1,2 @@
-export { default as usePersistedChat } from './use-persisted-chat';
+export { default as usePersistedChat } from './usePersistedChat';
+export { default as useStream } from './use-stream';

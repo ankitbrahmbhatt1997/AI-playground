@@ -1,11 +1,11 @@
 'use client';
 
-import usePersistedChat from '@/hooks/use-persisted-chat';
+import usePersistedChat from '@/hooks/usePersistedChat';
 import Messages from '@/components/messages/messages';
 import { Button } from '@/components/ui/button';
 import { clearAllMessages } from '@/lib/db/operations';
-import { useCallback, useEffect } from 'react';
-import { SYNC_TAG } from '@/lib/constants';
+import { useCallback } from 'react';
+import ErrorBoundary from '@/components/error-boundary/error-boundary';
 
 const Playground = () => {
   const {
@@ -42,15 +42,17 @@ const Playground = () => {
       <div className="flex-1 overflow-hidden pt-4">
         <div className="grid h-full items-stretch gap-6 md:grid-cols-[1fr_200px]">
           <div className="md:order-1">
-            <Messages
-              messages={messages}
-              input={input}
-              handleInputChange={onInputChange}
-              handleSubmit={onSubmit}
-              isLoading={isLoading}
-              isHistoryLoading={isHistoryLoading}
-              stopGenerating={stop}
-            />
+            <ErrorBoundary type="messages">
+              <Messages
+                messages={messages}
+                input={input}
+                handleInputChange={onInputChange}
+                handleSubmit={onSubmit}
+                isLoading={isLoading}
+                isHistoryLoading={isHistoryLoading}
+                stopGenerating={stop}
+              />
+            </ErrorBoundary>
           </div>
         </div>
       </div>

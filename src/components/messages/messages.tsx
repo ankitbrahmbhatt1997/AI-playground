@@ -4,6 +4,7 @@ import Input from '@/components/messages/input';
 import Metrics from '@/components/messages/metrics';
 import { FormEvent, ChangeEvent, useRef, useEffect, useState, memo } from 'react';
 import LoaderDots from '../ui/loader-dots';
+import ErrorBoundary from '@/components/error-boundary/error-boundary';
 
 interface MessagesProps {
   messages: Message[];
@@ -63,7 +64,9 @@ const Messages = ({
   return (
     <div className="flex h-[calc(100vh-13rem)] flex-col rounded-lg border bg-background">
       <div ref={scrollRef} className="scrollbar-hide min-h-0 flex-1 overflow-y-scroll p-3">
-        <List messages={messages} isLoading={isLoading} />
+        <ErrorBoundary type="stream">
+          <List messages={messages} isLoading={isLoading} />
+        </ErrorBoundary>
       </div>
       {isLoading && messages.length > 0 && (
         <div className="border-t px-4 py-2">
@@ -71,13 +74,15 @@ const Messages = ({
         </div>
       )}
       <div className="border-t">
-        <Input
-          input={input}
-          handleInputChange={handleInputChange}
-          handleSubmit={handleSubmit}
-          isLoading={isLoading}
-          stopGenerating={stopGenerating}
-        />
+        <ErrorBoundary type="input">
+          <Input
+            input={input}
+            handleInputChange={handleInputChange}
+            handleSubmit={handleSubmit}
+            isLoading={isLoading}
+            stopGenerating={stopGenerating}
+          />
+        </ErrorBoundary>
       </div>
     </div>
   );
