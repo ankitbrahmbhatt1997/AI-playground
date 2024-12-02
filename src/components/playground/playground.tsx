@@ -47,16 +47,24 @@ const Playground = () => {
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-2">
             <div
+              data-testid="online-status"
               className={cn(
                 'h-2 w-2 rounded-full',
                 isOnline ? 'animate-pulse bg-green-500' : 'bg-red-500'
               )}
             />
-            <span className="text-sm text-muted-foreground">{isOnline ? 'Online' : 'Offline'}</span>
+            <span data-testid="status" className="text-sm text-muted-foreground">
+              {isOnline ? 'Online' : 'Offline'}
+            </span>
           </div>
         </div>
         <div className="space-x-2">
-          <Button variant="outline" onClick={handleNewChat} disabled={startingNewChat}>
+          <Button
+            data-testid="new-chat-button"
+            variant="outline"
+            onClick={handleNewChat}
+            disabled={startingNewChat}
+          >
             {startingNewChat ? <Loader2 className="animate-spin" /> : 'Start New Chat'}
           </Button>
         </div>

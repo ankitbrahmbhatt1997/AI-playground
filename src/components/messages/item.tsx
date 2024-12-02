@@ -29,6 +29,7 @@ const Item = ({ message }: ItemProps) => {
         'group relative mb-4 flex items-start md:mb-6',
         message.role === 'user' ? 'justify-end' : 'justify-start'
       )}
+      data-testid={`${message.role}-message`}
     >
       <div
         className={cn(

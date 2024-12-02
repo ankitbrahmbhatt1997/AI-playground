@@ -41,6 +41,7 @@ const Input = memo(
     return (
       <form onSubmit={handleSubmit} className="flex items-end gap-3 p-4">
         <Textarea
+          data-testid="chat-input"
           tabIndex={0}
           rows={1}
           value={input}
@@ -51,11 +52,17 @@ const Input = memo(
           className="min-h-[60px] w-full resize-none rounded-md border border-input bg-background px-3 py-2"
         />
         {isLoading ? (
-          <Button type="button" onClick={handleStop} disabled={isCancelling} variant="secondary">
+          <Button
+            data-testid="stop-button"
+            type="button"
+            onClick={handleStop}
+            disabled={isCancelling}
+            variant="secondary"
+          >
             {isCancelling ? 'Stopping...' : 'Stop'}
           </Button>
         ) : (
-          <Button type="submit" disabled={isLoading}>
+          <Button data-testid="send-button" type="submit" disabled={isLoading}>
             Send
           </Button>
         )}

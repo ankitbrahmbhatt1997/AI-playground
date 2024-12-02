@@ -67,13 +67,17 @@ const Messages = ({
 
   return (
     <div className="flex h-[calc(100vh-13rem)] flex-col rounded-lg border bg-background">
-      <div ref={scrollRef} className="scrollbar-hide min-h-0 flex-1 overflow-y-scroll p-3">
+      <div
+        data-testid="messages-container"
+        ref={scrollRef}
+        className="scrollbar-hide min-h-0 flex-1 overflow-y-scroll p-3"
+      >
         <ErrorBoundary type="stream">
           <List messages={messages} isLoading={isLoading} />
         </ErrorBoundary>
       </div>
       {isLoading && messages.length > 0 && (
-        <div className="border-t px-4 py-2">
+        <div data-testid="metrics-container" className="border-t px-4 py-2">
           <Metrics isStreaming={isLoading} startTime={startTime} tokenCount={tokenCount} />
         </div>
       )}

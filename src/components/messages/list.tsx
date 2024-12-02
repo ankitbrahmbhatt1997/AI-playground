@@ -34,7 +34,7 @@ const List = memo(
     // Loading state changed
     if (prev.isLoading !== next.isLoading) return false;
 
-    // During streaming, only last message changes
+    // During streaming, last message is updated
     const lastIndex = prev.messages.length - 1;
     const prevLast = prev.messages[lastIndex];
     const nextLast = next.messages[lastIndex];
