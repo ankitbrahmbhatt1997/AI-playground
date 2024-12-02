@@ -1,5 +1,5 @@
 import { createMessage, isValidMessage, processStreamChunk } from '@/utils/stream';
-import { Message } from 'ai';
+import { ChatMessage as Message } from '@/types/db';
 
 describe('Stream Utils', () => {
   describe('createMessage', () => {
@@ -10,6 +10,7 @@ describe('Stream Utils', () => {
         id: expect.any(String),
         content: 'Hello',
         role: 'user',
+        timestamp: expect.any(Number),
       });
     });
 
@@ -27,6 +28,7 @@ describe('Stream Utils', () => {
         id: '123',
         content: 'Hello',
         role: 'user',
+        timestamp: Date.now(),
       };
 
       expect(isValidMessage(message)).toBe(true);
@@ -37,7 +39,7 @@ describe('Stream Utils', () => {
         content: 'Hello',
       };
 
-      expect(isValidMessage(invalidMessage)).toBe(false);
+      expect(isValidMessage(invalidMessage as Message)).toBe(false);
     });
   });
 

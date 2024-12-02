@@ -125,15 +125,14 @@ const useStream = ({ api = '/api/chat', onFinish, ...options }: StreamOptions) =
         // Create and append user message first
         const userMessage = {
           ...createMessage(userInput, 'user'),
-          timestamp: Date.now(),
         };
+
         append(userMessage);
         setInput('');
 
         // Create empty assistant message
         const assistantMessage = {
           ...createMessage('', 'assistant'),
-          timestamp: Date.now(),
         };
         append(assistantMessage);
 

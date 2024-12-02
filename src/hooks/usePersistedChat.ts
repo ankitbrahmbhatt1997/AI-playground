@@ -27,12 +27,20 @@ const usePersistedChat = (options = {}) => {
 
   // Load messages from IndexedDB on mount
   useEffect(() => {
-    async function loadCachedMessages() {
+    const loadCachedMessages = async () => {
       try {
         setIsHistoryLoading(true);
         const cached = await getMessages();
         if (cached && cached.length > 0) {
-          const sortedMessages = cached
+          const validMessages = cached.filter((message) => {
+            const isValid = message.id && message.content && message.role && message.timestamp;
+            if (!isValid) {
+              console.error('Malformed message found:', message);
+            }
+            return isValid;
+          });
+
+          const sortedMessages = validMessages
             .sort((a, b) => a.timestamp - b.timestamp)
             .map(({ content, role, id, timestamp }) => ({
               content,
@@ -46,12 +54,11 @@ const usePersistedChat = (options = {}) => {
       } catch (error) {
         console.error('Failed to load cached messages:', error);
       } finally {
-        // Added as a ux touch. So that we can see the loader :-)
         setTimeout(() => {
           setIsHistoryLoading(false);
         }, 2000);
       }
-    }
+    };
 
     loadCachedMessages();
   }, []);

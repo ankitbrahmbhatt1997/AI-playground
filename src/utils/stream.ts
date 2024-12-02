@@ -1,10 +1,10 @@
-import { Message } from 'ai';
-// import { ChatMessage as Message } from '@/types/db';
+import { ChatMessage as Message } from '@/types/db';
 
 export const createMessage = (content: string, role: 'user' | 'assistant'): Message => ({
   id: Math.random().toString(36).slice(2),
   content,
   role,
+  timestamp: Date.now(),
 });
 
 export const isValidMessage = (message: Message): boolean => {
