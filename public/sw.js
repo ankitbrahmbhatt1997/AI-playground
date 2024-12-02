@@ -5,8 +5,7 @@ const CACHE_NAME = 'chat-cache-v1';
 
 const SYNC_SUPPORTED = 'sync' in self.registration;
 
-console.log('Service Worker: Background sync supported?', 'sync' in self.registration);
-console.log('Periodic sync supported?', 'periodicSync' in self.registration);
+
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();

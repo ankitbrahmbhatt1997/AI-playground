@@ -2,6 +2,11 @@ import { initDB } from './index';
 import { ChatMessage } from '@/types/db';
 
 export async function saveMessage(message: ChatMessage): Promise<void> {
+  // Validate message format
+  if (!message.id || !message.role || typeof message.timestamp !== 'number') {
+    throw new Error('Invalid message format: missing required fields');
+  }
+
   const db = await initDB();
   await db.put('messages', message);
 }

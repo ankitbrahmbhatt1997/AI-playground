@@ -1,4 +1,5 @@
 import { Message } from 'ai';
+// import { ChatMessage as Message } from '@/types/db';
 
 export const createMessage = (content: string, role: 'user' | 'assistant'): Message => ({
   id: Math.random().toString(36).slice(2),

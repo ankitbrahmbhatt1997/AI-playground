@@ -1,5 +1,4 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-// import { Message } from 'ai';
 import { ChatMessage as Message } from '@/types/db';
 import { StreamOptions, LoadingState } from '@/types/stream';
 import { createMessage, isValidMessage, processStreamChunk } from '@/utils/stream';
