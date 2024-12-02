@@ -1,3 +1,16 @@
+/**
+ * Stream processing utilities for real-time chat
+ *
+ * Handles stream processing logic including:
+ * - Message creation and validation
+ * - Stream chunk processing
+ * - Text decoding and formatting
+ *
+ * Used primarily by useStream hook for real-time updates.
+ *
+ * @module utils/stream
+ */
+
 import { ChatMessage as Message } from '@/types/db';
 
 export const createMessage = (content: string, role: 'user' | 'assistant'): Message => ({

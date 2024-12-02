@@ -1,3 +1,17 @@
+/**
+ * Hook for chat persistence and offline support
+ *
+ * Combines useStream with IndexedDB persistence.
+ * Handles:
+ * - Message caching
+ * - History loading
+ * - Offline message queueing
+ *
+ * Built on top of useStream for core chat functionality.
+ */
+
+// TODO: This too can churn out 2 or 3 more utils.
+
 import { ChatMessage as Message } from '@/types/db';
 import { useEffect, useState } from 'react';
 import { getMessages, saveMessage } from '@/lib/db/operations';

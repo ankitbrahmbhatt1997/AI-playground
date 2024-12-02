@@ -1,3 +1,32 @@
+/**
+ * Service Worker for offline support and background sync
+ * 
+ * Handles:
+ * - Message caching and offline storage
+ * - Background sync when coming back online
+ * - Request queueing in IndexedDB
+ * - Cache management for offline-first
+ * 
+ * Note: This is a basic implementation. Could be improved with:
+ * - Better error handling
+ * - Retry mechanisms
+ * 
+ * 
+ * 
+ */
+
+
+// Ideal setup that I was thinking of:
+
+// During dev
+// src/service-worker/sw.ts
+
+// During build:
+// 1. Compile to JS
+// 2. Copy to public/sw.js
+// 3. Register from app
+
+
 const SYNC_TAG = 'chat-sync';
 const DB_NAME = 'chat-cache';
 const DB_VERSION = 1;
@@ -5,8 +34,7 @@ const CACHE_NAME = 'chat-cache-v1';
 
 const SYNC_SUPPORTED = 'sync' in self.registration;
 
-
-
+// Install event: Set up caches
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
@@ -16,10 +44,12 @@ self.addEventListener('install', (event) => {
   );
 });
 
+// Activate event: Clean up old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(clients.claim());
 });
 
+// Store offline requests for later sync
 async function storeOfflineRequest(request) {
   const db = await new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
@@ -42,6 +72,7 @@ async function storeOfflineRequest(request) {
   });
 }
 
+// Handle fetch events
 self.addEventListener('fetch', (event) => {
   if (event.request.url.includes('/api/chat')) {
     event.respondWith(
@@ -82,6 +113,7 @@ self.addEventListener('fetch', (event) => {
   }
 });
 
+// Handle sync messages
 self.addEventListener('message', async (event) => {
   if (event.data === 'trigger-sync') {
     console.log('Manual sync triggered, sync supported?', 'sync' in self.registration);

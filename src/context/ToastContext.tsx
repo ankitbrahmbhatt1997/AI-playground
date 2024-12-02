@@ -1,3 +1,17 @@
+/**
+ * Toast notification context and provider. Pairs up with useToast hook.
+ *
+ * Provides global toast notifications with:
+ * - Success/Error/Info variants
+ * - Auto-dismiss after 3 seconds
+ * - Stacked notifications
+ * - Tailwind styling
+ *
+ * @example
+ * const { showToast } = useToast();
+ * showToast('success', 'Operation completed!');
+ */
+
 'use client';
 
 import { createContext, useState, useCallback } from 'react';

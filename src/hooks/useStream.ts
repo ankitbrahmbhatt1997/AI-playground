@@ -1,3 +1,19 @@
+/**
+ * Core streaming hook for chat functionality. Fetches from the API and streams the response.
+ *
+ * Handles:
+ * - Real-time message streaming
+ * - Input state management
+ * - Stream cancellation
+ * - Error handling
+ *
+ * Uses local state instead of context for better performance
+ * with token-by-token updates.
+ */
+
+// TODO: Needs some serious refactoring and modularization. Tried to mimic useChat functionality.
+// DEV-NOTE: Its my blood and sweat :'(
+
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { ChatMessage as Message } from '@/types/db';
 import { StreamOptions, LoadingState } from '@/types/stream';

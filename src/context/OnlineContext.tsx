@@ -1,3 +1,17 @@
+/**
+ * Online status context and provider
+ *
+ * Tracks network connectivity and provides:
+ * - Real-time online/offline status
+ * - Toast notifications on status change
+ * - Service worker sync triggers
+ * - Background  syncing message
+ *
+ * @example
+ * const isOnline = useOnlineStatus();
+ * if (!isOnline) showOfflineWarning();
+ */
+
 import { createContext, useEffect, useState } from 'react';
 import { useToast } from '@/hooks';
 

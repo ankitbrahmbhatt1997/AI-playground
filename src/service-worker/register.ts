@@ -4,7 +4,7 @@ export function register() {
       navigator.serviceWorker
         .register('/sw.js')
         .then((registration) => {
-          console.log('🔧 ServiceWorker registration successful:', registration.scope);
+          console.log('Dank ServiceWorker registration successful:', registration.scope);
         })
         .catch((error) => {
           console.error('Dank ServiceWorker registration failed:', error);

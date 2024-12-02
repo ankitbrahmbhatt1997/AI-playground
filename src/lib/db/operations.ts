@@ -1,3 +1,16 @@
+/**
+ * Database operations for chat persistence
+ *
+ * Handles CRUD operations for messages in IndexedDB:
+ * - Save/update messages
+ * - Retrieve message history
+ * - Clear chat history
+ *
+ * Used by usePersistedChat for offline support.
+ *
+ * @module lib/db/operations
+ */
+
 import { initDB } from './index';
 import { ChatMessage } from '@/types/db';
 

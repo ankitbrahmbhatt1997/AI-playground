@@ -6,7 +6,7 @@ A real-time AI chat interface built with Next.js 14, featuring streaming respons
 
 - **Live Demo**: [v0-ai-chat.vercel.app](http://v0-ai-chat-zdcvrk2omjc.vercel.app/)
 
-- **Demo Video**: [Watch on Google Drive](https://drive.google.com/file/d/1pP9eir5JloYe5w3_sIIPtohqMb7pDvZv/view)
+- **Demo Video(Pro-tip: Watch in 1.5x 😉)**: [Watch on Google Drive](https://drive.google.com/file/d/1pP9eir5JloYe5w3_sIIPtohqMb7pDvZv/view)
 
 ## Features
 
@@ -304,10 +304,11 @@ Phase 1 was done with extremely limited time. Here are some improvements that ca
 - Implement virtualized list for large chat histories
 - Use a custom solution instead of `react-window` or `react-virtualized` for efficient rendering (Too much customization needed for these to work)
 
-**Code Organization**
+**Code Organization & Improvements**
 
 - Centralize types and utilities in a shared directory
 - Create a `@/shared` directory for common types, utils, and constants
+- Service worker setup is kinda messy, needs to be refactored
 
 Example structure:
 
@@ -330,6 +331,11 @@ src/components/messages/
 ├── message-actions.tsx   # Message actions
 └── message-input.tsx     # Input handling
 ```
+
+**More comments supporting jsdoc**
+
+- Add more comments to support jsdoc documentation generation
+- Currently only hooks, utils and context provider are covered
 
 **Enhanced Error Handling**
 

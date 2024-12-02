@@ -1,3 +1,16 @@
+/**
+ * IndexedDB initialization and schema setup
+ *
+ * Sets up the database with three stores:
+ * - messages: For chat message history
+ * - sessions: For future chat session support
+ * - offline-requests: For offline message queueing
+ *
+ * Each store has its own indexes for efficient querying.
+ *
+ * @module lib/db/index
+ */
+
 import { openDB, DBSchema } from 'idb';
 import { ChatMessage, ChatSession } from '@/types/db';
 
